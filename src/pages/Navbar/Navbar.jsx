@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
+
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -17,6 +10,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 import { useDispatch, useSelector } from 'react-redux';
 
 import ProjectForm from '../Project/ProjectForm'
