@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { Button } from "@/Components/ui/button"
 import "./Auth.css"
 import Login from './Login'
@@ -11,6 +12,16 @@ const Auth = () => {
     const [activeView, setActiveView] = useState('login'); // 'login', 'signup', 'forgot', 'reset'
     const [isTransitioning, setIsTransitioning] = useState(false);
     const location = useLocation();
+    const navigate = useNavigate();
+    const { auth } = useSelector(store => store);
+    
+    // Navigate to home page after successful login
+    useEffect(() => {
+        if (auth.user) {
+            console.log('User authenticated, navigating to home...'); // Debug log
+            navigate('/home', { replace: true });
+        }
+    }, [auth.user, navigate]);
     
     // Check if URL contains reset token to show reset password view
     useEffect(() => {
@@ -117,6 +128,9 @@ const Auth = () => {
                 return { title: "Welcome Back", subtitle: "Sign in to your account" };
         }
     };
+
+    // Debug log to check auth state
+    console.log('Auth state in Auth component:', auth);
     
     return (
         <div className='loginContainer'>
