@@ -41,7 +41,7 @@ const App = () => {
       {/* Protected routes */}
       {auth.user ? (
         <>
-          <Route path='/' element={<><Navbar /><Home /></>} />
+          <Route path='/home' element={<><Navbar /><Home /></>} />
           <Route path='/project/:id' element={<><Navbar /><ProjectDetails /></>} />
           <Route path='/project/:projectId/issue/:issueId' element={<><Navbar /><IssueDetails /></>} />
           <Route path='/upgrade_plan' element={<><Navbar /><Subscription /></>} />
