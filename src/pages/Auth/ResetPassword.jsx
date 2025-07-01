@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Button } from "@/Components/ui/button"
 import { Input } from "@/Components/ui/input"
-import { Label } from "@/Components/ui/label"
 import { ArrowLeftIcon, CheckCircledIcon, EyeOpenIcon, EyeClosedIcon } from '@radix-ui/react-icons'
 import { resetPassword } from '../../Redux/Auth/Action' // Adjust path as needed
 
