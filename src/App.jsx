@@ -7,8 +7,7 @@ import Subscription from './pages/Subscription/Subscription';
 import Auth from './pages/Auth/Auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-
-import {getUser} from './Redux/Auth/Action'
+import { getUser } from './Redux/Auth/Action'
 import { fetchProjects } from './Redux/Project/Action';
 import UpdateProject from './pages/ProjectDetails/UpdateProject';
 import UpgradeSuccessPage from './pages/Subscription/UpgradeSuccess';
@@ -17,35 +16,44 @@ import ResetPassword from './pages/Auth/ResetPassword';
 
 const App = () => {
   const dispatch = useDispatch();
-  const {auth} = useSelector(store => store)
+  const { auth } = useSelector(store => store);
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (token) {
       dispatch(getUser());
-      dispatch(fetchProjects())
+      dispatch(fetchProjects());
     }
-  }, []); // Remove auth.jwt dependency
+  }, [dispatch]); // Add dispatch as dependency
+
+  // Show loading while checking authentication
+  if (auth.loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Routes>
-      {/* Public routes */}
-      <Route path='/accept_invitation' element={<AcceptInvitation/>}/>
-      <Route path='/reset-password' element={<ResetPassword/>}/>
+      {/* Public routes - these should be accessible even when not authenticated */}
+      <Route path='/accept_invitation' element={<AcceptInvitation />} />
+      <Route path='/reset-password' element={<ResetPassword />} />
+      <Route path='/auth' element={<Auth />} />
       
       {/* Protected routes */}
       {auth.user ? (
         <>
-          <Route path='/' element={<><Navbar/><Home/></>}/>
-          <Route path='/project/:id' element={<><Navbar/><ProjectDetails/></>}/>
-          <Route path='/project/:projectId/issue/:issueId' element={<><Navbar/><IssueDetails/></>}/>
-          <Route path='/upgrade_plan' element={<><Navbar/><Subscription/></>}/>
-          <Route path='/project/:projectId/edit' element={<><Navbar/><UpdateProject/></>}/>
-          <Route path='/upgrade_plan/success' element={<><Navbar/><UpgradeSuccessPage/></>}/>
-          <Route path='*' element={<><Navbar/><Home/></>}/>
+          <Route path='/' element={<><Navbar /><Home /></>} />
+          <Route path='/project/:id' element={<><Navbar /><ProjectDetails /></>} />
+          <Route path='/project/:projectId/issue/:issueId' element={<><Navbar /><IssueDetails /></>} />
+          <Route path='/upgrade_plan' element={<><Navbar /><Subscription /></>} />
+          <Route path='/project/:projectId/edit' element={<><Navbar /><UpdateProject /></>} />
+          <Route path='/upgrade_plan/success' element={<><Navbar /><UpgradeSuccessPage /></>} />
+          <Route path='*' element={<><Navbar /><Home /></>} />
         </>
       ) : (
-        <Route path='*' element={<Auth/>}/>
+        <>
+          {/* Redirect all other routes to auth when not authenticated */}
+          <Route path='*' element={<Auth />} />
+        </>
       )}
     </Routes>
   );
