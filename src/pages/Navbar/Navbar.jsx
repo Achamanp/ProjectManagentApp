@@ -1,6 +1,5 @@
-import React from 'react'
-
-import { Button } from '@/components/ui/button'
+// Change from @ imports to relative imports
+import { Button } from '../../components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,7 +7,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "../../components/ui/dropdown-menu"
 
 import {
   Dialog,
@@ -17,7 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "../../components/ui/dialog"
 import { useDispatch, useSelector } from 'react-redux';
 
 import ProjectForm from '../Project/ProjectForm'
