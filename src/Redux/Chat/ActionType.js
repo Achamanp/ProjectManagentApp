@@ -1,4 +1,3 @@
-
 // Send Message Actions
 export const SEND_MESSAGE_REQUEST = "SEND_MESSAGE_REQUEST";
 export const SEND_MESSAGE_SUCCESS = "SEND_MESSAGE_SUCCESS";
@@ -22,3 +21,6 @@ export const FETCH_CHAT_MESSAGES_FAILURE = "FETCH_CHAT_MESSAGES_FAILURE";
 // Additional utility actions
 export const CLEAR_CHAT_ERRORS = "CLEAR_CHAT_ERRORS";
 export const RESET_CHAT_STATE = "RESET_CHAT_STATE";
+
+// Add this missing export
+export const ADD_MESSAGE_TO_CHAT = "ADD_MESSAGE_TO_CHAT";

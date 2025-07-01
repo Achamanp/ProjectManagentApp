@@ -25,31 +25,29 @@ const App = () => {
       dispatch(getUser());
       dispatch(fetchProjects())
     }
-  }, [auth.jwt]);
+  }, []); // Remove auth.jwt dependency
 
-  
   return (
-    <>
-      <Routes>
-        {/* Public routes - accessible without authentication */}
-        <Route path='/accept_invitation' element={<AcceptInvitation/>}/>
-        <Route path='/reset-password' element={<ResetPassword/>}/>
-        
-        {/* Protected routes - require authentication */}
-        {auth.user ? (
-          <>
-            <Route path='/' element={<><Navbar/><Home/></>}/>
-            <Route path='/project/:id' element={<><Navbar/><ProjectDetails/></>}/>
-            <Route path='/project/:projectId/issue/:issueId' element={<><Navbar/><IssueDetails/></>}/>
-            <Route path='/upgrade_plan' element={<><Navbar/><Subscription/></>}/>
-            <Route path='/project/:projectId/edit' element={<><Navbar/><UpdateProject/></>}/>
-            <Route path='/upgrade_plan/success' element={<><Navbar/><UpgradeSuccessPage/></>}/>
-          </>
-        ) : (
-          <Route path='/*' element={<Auth/>}/>
-        )}
-      </Routes>
-    </>
+    <Routes>
+      {/* Public routes */}
+      <Route path='/accept_invitation' element={<AcceptInvitation/>}/>
+      <Route path='/reset-password' element={<ResetPassword/>}/>
+      
+      {/* Protected routes */}
+      {auth.user ? (
+        <>
+          <Route path='/' element={<><Navbar/><Home/></>}/>
+          <Route path='/project/:id' element={<><Navbar/><ProjectDetails/></>}/>
+          <Route path='/project/:projectId/issue/:issueId' element={<><Navbar/><IssueDetails/></>}/>
+          <Route path='/upgrade_plan' element={<><Navbar/><Subscription/></>}/>
+          <Route path='/project/:projectId/edit' element={<><Navbar/><UpdateProject/></>}/>
+          <Route path='/upgrade_plan/success' element={<><Navbar/><UpgradeSuccessPage/></>}/>
+          <Route path='*' element={<><Navbar/><Home/></>}/>
+        </>
+      ) : (
+        <Route path='*' element={<Auth/>}/>
+      )}
+    </Routes>
   );
 };
 
