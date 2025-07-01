@@ -7,11 +7,11 @@ import {
   FormControl,
   FormLabel,
   FormMessage
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Button } from '@/components/ui/button'
-import { DialogClose } from '@/components/ui/dialog'
+} from '@/Components/ui/form'
+import { Input } from '@/Components/ui/input'
+import { Textarea } from '@/Components/ui/textarea'
+import { Button } from '@/Components/ui/button'
+import { DialogClose } from '@/Components/ui/dialog'
 import { Cross1Icon } from '@radix-ui/react-icons'
 import {
   Select,
@@ -19,7 +19,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
+} from '@/Components/ui/select'
 
 import { tags } from '../ProjectList/ProjectList' 
 import { useDispatch } from 'react-redux'

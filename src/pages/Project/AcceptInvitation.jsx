@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/Components/ui/button'
 import { useDispatch, useSelector } from 'react-redux'
 import { acceptInvitation } from '../../Redux/Project/Action'
 import { useNavigate } from 'react-router-dom'
-import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Alert, AlertDescription } from '@/Components/ui/alert'
 
 const AcceptInvitation = () => {
     const dispatch = useDispatch();

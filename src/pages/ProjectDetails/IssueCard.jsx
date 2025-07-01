@@ -4,8 +4,8 @@ import {
   CardHeader,
   CardTitle,
   CardContent
-} from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+} from '@/Components/ui/card'
+import { Button } from '@/Components/ui/button'
 import UserList from './UserList'
 
 import {
@@ -15,7 +15,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator
-} from '@/components/ui/dropdown-menu'
+} from '@/Components/ui/dropdown-menu'
 import {
   DotsVerticalIcon,
   PersonIcon
@@ -23,7 +23,7 @@ import {
 import {
   Avatar,
   AvatarFallback
-} from '@/components/ui/avatar'
+} from '@/Components/ui/avatar'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { deleteIssue, getIssuesByProjectId } from '../../Redux/Issue/Action'

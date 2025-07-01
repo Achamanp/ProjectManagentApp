@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { Button } from "@/components/ui/button"
+import { Button } from "@/Components/ui/button"
 import "./Auth.css"
 import Login from './Login'
 import Signup from './Signup'

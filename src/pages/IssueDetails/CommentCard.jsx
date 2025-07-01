@@ -2,9 +2,9 @@ import React from 'react'
 import {
   Avatar,
   AvatarFallback
-} from '@/components/ui/avatar' 
+} from '@/Components/ui/avatar' 
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@/Components/ui/button'
 import { TrashIcon } from 'lucide-react'
 import { useDispatch } from 'react-redux'
 import { deleteComment, fetchCommentsByIssueId } from '../../Redux/Comment/Action'

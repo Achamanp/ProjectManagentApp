@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { ScrollArea } from '@/Components/ui/scroll-area'
+import { Button } from '@/Components/ui/button'
+import { Input } from '@/Components/ui/input'
 import {
   Avatar,
   AvatarFallback
-} from '@/components/ui/avatar'
+} from '@/Components/ui/avatar'
 import { PaperPlaneIcon } from '@radix-ui/react-icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { sendMessage, fetchMessagesByProjectId } from '../../Redux/Chat/Action'

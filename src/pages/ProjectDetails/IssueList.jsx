@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button'
+import { Button } from '@/Components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -7,8 +7,8 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogClose
-} from "@/components/ui/dialog"
-import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card'
+} from "@/Components/ui/dialog"
+import { Card, CardHeader, CardContent, CardFooter } from '@/Components/ui/card'
 
 import CreateIssueForm from './CreateIssueForm'
 

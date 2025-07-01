@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import {Badge} from '@/components/ui/badge'
-import { Button } from "@/components/ui/button"
+import { Avatar, AvatarFallback, AvatarImage } from "@/Components/ui/avatar"
+import {Badge} from '@/Components/ui/badge'
+import { Button } from "@/Components/ui/button"
 import InviteUserForm from './InviteUserForm'
-import {ScrollArea} from '@/components/ui/scroll-area'
+import {ScrollArea} from '@/Components/ui/scroll-area'
 import IssueList from './IssueList'
 import ChatBox from './ChatBox'
 import {
@@ -15,7 +15,7 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogClose
-} from "@/components/ui/dialog"
+} from "@/Components/ui/dialog"
 import { PlusIcon } from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchProjectById } from '../../Redux/Project/Action'

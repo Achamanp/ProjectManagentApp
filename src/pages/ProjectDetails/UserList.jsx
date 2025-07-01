@@ -2,7 +2,7 @@ import React from 'react'
 import {
   Avatar,
   AvatarFallback
-} from '@/components/ui/avatar'
+} from '@/Components/ui/avatar'
 import { useSelector, useDispatch } from 'react-redux'
 import { assignIssueToUser } from '../../Redux/Issue/Action'
 
