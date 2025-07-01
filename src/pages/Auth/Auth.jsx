@@ -99,18 +99,18 @@ const Auth = () => {
 
     // Dynamic sizing based on active view with smooth transitions
     const getBoxClasses = () => {
-        const baseClasses = "box transition-all duration-500 ease-out";
+        const baseClasses = "auth-container transition-all duration-500 ease-out";
         
         switch(activeView) {
             case 'forgot':
-                return `${baseClasses} min-h-[420px] w-full max-w-[420px]`;
+                return `${baseClasses} min-h-[450px] max-h-[520px] w-full max-w-[420px]`;
             case 'reset':
-                return `${baseClasses} min-h-[480px] w-full max-w-[440px]`;
+                return `${baseClasses} min-h-[580px] max-h-[650px] w-full max-w-[460px]`;
             case 'signup':
-                return `${baseClasses} min-h-[550px] w-full max-w-[450px]`;
+                return `${baseClasses} min-h-[580px] max-h-[650px] w-full max-w-[450px]`;
             case 'login':
             default:
-                return `${baseClasses} min-h-[480px] w-full max-w-[420px]`;
+                return `${baseClasses} min-h-[520px] max-h-[580px] w-full max-w-[420px]`;
         }
     };
 
@@ -133,13 +133,13 @@ const Auth = () => {
     console.log('Auth state in Auth component:', auth);
     
     return (
-        <div className='loginContainer'>
+        <div className='auth-page-container'>
             {/* Background particles effect */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="auth-background">
                 {[...Array(20)].map((_, i) => (
                     <div
                         key={i}
-                        className="absolute w-1 h-1 bg-purple-500/30 rounded-full animate-pulse"
+                        className="particle"
                         style={{
                             left: `${Math.random() * 100}%`,
                             top: `${Math.random() * 100}%`,
@@ -150,21 +150,24 @@ const Auth = () => {
                 ))}
             </div>
 
-            <div className={getBoxClasses()}>
-                <div className='login'>
-                    <div className='loginBox'>
-                        {/* Dynamic header with better styling */}
-                        <div className="text-center">
-                            <h1 className="form-title">
-                                {getViewTitle().title}
-                            </h1>
-                            <p className="form-subtitle">
-                                {getViewTitle().subtitle}
-                            </p>
-                        </div>
+            {/* Centered auth container */}
+            <div className="auth-wrapper">
+                <div className={getBoxClasses()}>
+                    <div className='auth-box'>
+                        {/* Dynamic header with better styling - Only show for reset view */}
+                        {activeView === 'reset' && (
+                            <div className="auth-header">
+                                <h1 className="auth-title">
+                                    {getViewTitle().title}
+                                </h1>
+                                <p className="auth-subtitle">
+                                    {getViewTitle().subtitle}
+                                </p>
+                            </div>
+                        )}
                         
                         {/* Main content with fade transition */}
-                        <div className={`transition-all duration-300 ${isTransitioning ? 'opacity-0 transform scale-95' : 'opacity-100 transform scale-100'}`}>
+                        <div className={`auth-content ${isTransitioning ? 'transitioning' : ''}`}>
                             {renderCurrentView()}
                         </div>
                         

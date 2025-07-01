@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { Button } from "@/Components/ui/button"
-import { Input } from "@/Components/ui/input"
-import { ArrowLeftIcon, CheckCircledIcon, EyeOpenIcon, EyeClosedIcon } from '@radix-ui/react-icons'
-import { resetPassword } from '../../Redux/Auth/Action' // Adjust path as needed
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Button } from "@/Components/ui/button";
+import { Input } from "@/Components/ui/input";
+import { ArrowLeftIcon, CheckCircledIcon, EyeOpenIcon, EyeClosedIcon } from '@radix-ui/react-icons';
+import { resetPassword } from '../../Redux/Auth/Action';
 
 const ResetPassword = ({ onBack, onSuccess }) => {
     const [formData, setFormData] = useState({
@@ -20,48 +20,31 @@ const ResetPassword = ({ onBack, onSuccess }) => {
     const dispatch = useDispatch();
     const location = useLocation();
     const navigate = useNavigate();
-    
-    const { 
-        resetPasswordLoading, 
-        resetPasswordSuccess, 
-        resetPasswordError 
-    } = useSelector(state => state.auth);
 
-    // Extract token from URL params or props
+    const { resetPasswordLoading, resetPasswordSuccess, resetPasswordError } = useSelector(state => state.auth);
+
     useEffect(() => {
         const urlParams = new URLSearchParams(location.search);
         const tokenFromUrl = urlParams.get('token');
-        
         if (tokenFromUrl) {
             setToken(tokenFromUrl);
-        } else {
-            // If no token in UR
         }
     }, [location]);
 
-    // Clear errors when user types
     useEffect(() => {
         if (Object.keys(errors).length > 0) {
             setErrors({});
         }
     }, [formData]);
 
-    // Handle successful password reset
     useEffect(() => {
         if (resetPasswordSuccess) {
-            // Clear form
-            setFormData({
-                otp: '',
-                newPassword: '',
-                confirmPassword: ''
-            });
-            
-            // Call success callback if provided, or navigate to login after delay
+            setFormData({ otp: '', newPassword: '', confirmPassword: '' });
             if (onSuccess) {
                 onSuccess();
             } else {
                 setTimeout(() => {
-                    navigate('/auth'); // Navigate to login page
+                    navigate('/auth');
                 }, 2000);
             }
         }
@@ -70,52 +53,34 @@ const ResetPassword = ({ onBack, onSuccess }) => {
     const validateForm = () => {
         const newErrors = {};
 
-        if (!formData.otp.trim()) {
-            newErrors.otp = 'OTP is required';
-        } else if (!/^\d{4}$/.test(formData.otp.trim())) {
-            newErrors.otp = 'OTP must be 4 digits';
-        }
+        if (!formData.otp.trim()) newErrors.otp = 'OTP is required';
+        else if (!/^\d{4}$/.test(formData.otp.trim())) newErrors.otp = 'OTP must be 4 digits';
 
-        if (!formData.newPassword.trim()) {
-            newErrors.newPassword = 'New password is required';
-        } else if (formData.newPassword.length < 6) {
-            newErrors.newPassword = 'Password must be at least 6 characters long';
-        }
+        if (!formData.newPassword.trim()) newErrors.newPassword = 'New password is required';
+        else if (formData.newPassword.length < 6) newErrors.newPassword = 'Password must be at least 6 characters long';
 
-        if (!formData.confirmPassword.trim()) {
-            newErrors.confirmPassword = 'Please confirm your password';
-        } else if (formData.newPassword !== formData.confirmPassword) {
-            newErrors.confirmPassword = 'Passwords do not match';
-        }
+        if (!formData.confirmPassword.trim()) newErrors.confirmPassword = 'Please confirm your password';
+        else if (formData.newPassword !== formData.confirmPassword) newErrors.confirmPassword = 'Passwords do not match';
 
-        if (!token) {
-            newErrors.token = 'Reset token is missing';
-        }
+        if (!token) newErrors.token = 'Reset token is missing';
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        
-        if (!validateForm()) {
-            return;
-        }
+        if (!validateForm()) return;
 
-        // Dispatch Redux action
         dispatch(resetPassword({
-            token: token,
+            token,
             otp: formData.otp.trim(),
             newPassword: formData.newPassword
         }));
     };
 
     const handleInputChange = (field, value) => {
-        setFormData(prev => ({
-            ...prev,
-            [field]: value
-        }));
+        setFormData(prev => ({ ...prev, [field]: value }));
     };
 
     const handleBackToLogin = () => {
@@ -126,27 +91,30 @@ const ResetPassword = ({ onBack, onSuccess }) => {
         }
     };
 
-    // Show success screen
+    // Success Screen with matching design
     if (resetPasswordSuccess) {
         return (
-            <div className="space-y-6 text-center">
-                <div className="flex justify-center">
-                    <CheckCircledIcon className="w-16 h-16 text-green-500" />
-                </div>
-                
-                <div className="space-y-2">
-                    <h2 className="text-2xl font-bold text-gray-800">Password Reset Successful!</h2>
-                    <p className="text-gray-600">
-                        Your password has been successfully updated.
-                    </p>
-                    <p className="text-gray-600">
-                        You can now login with your new password.
-                    </p>
+            <div className='space-y-6'>
+                <div className="text-center space-y-4">
+                    <div className="flex justify-center mb-6">
+                        <div className="relative">
+                            <div className="w-20 h-20 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center shadow-lg">
+                                <CheckCircledIcon className="w-10 h-10 text-white" />
+                            </div>
+                            <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-400 rounded-full animate-bounce flex items-center justify-center">
+                                <div className="w-2 h-2 bg-white rounded-full"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h1 className="text-xl font-semibold text-white">Password Reset Successful!</h1>
+                    <p className="text-gray-300 text-sm">Your password has been successfully updated.</p>
+                    <p className="text-gray-400 text-xs">You can now login with your new password.</p>
                 </div>
 
                 <Button 
-                    onClick={handleBackToLogin}
-                    className="w-full bg-blue-600 hover:bg-blue-700"
+                    onClick={handleBackToLogin} 
+                    className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium rounded-lg transition-all duration-200"
                 >
                     Continue to Login
                 </Button>
@@ -155,36 +123,34 @@ const ResetPassword = ({ onBack, onSuccess }) => {
     }
 
     return (
-        <div className="space-y-6">
-            <div className="space-y-2 text-center">
-                <h2 className="text-2xl font-bold text-blue-500">Reset Your Password</h2>
-                <p className="text-gray-200">
-                    Enter the OTP sent to your email and your new password.
-                </p>
-            </div>
-
+        <div className='space-y-5'>
+            <h1 className="text-xl font-semibold text-center text-white">Reset Password</h1>
+            
             <form onSubmit={handleSubmit} className="space-y-4">
-                {/* OTP Input */}
-                <div className="space-y-2">
-                    
+                {/* OTP Field */}
+                <div className="space-y-1">
+                    <label htmlFor="otp" className="block text-sm font-medium text-gray-300">
+                        Verification Code
+                    </label>
                     <Input
                         id="otp"
                         type="text"
                         placeholder="Enter 4-digit OTP"
                         value={formData.otp}
-                        onChange={(e) => handleInputChange('otp', e.target.value)}
-                        className="w-full"
+                        onChange={(e) => handleInputChange('otp', e.target.value.replace(/\D/g, '').slice(0, 4))}
+                        className="w-full p-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-center text-lg tracking-[0.5em] font-mono"
                         disabled={resetPasswordLoading}
                         maxLength={4}
+                        autoComplete="one-time-code"
                     />
-                    {errors.otp && (
-                        <p className="text-red-500 text-sm">{errors.otp}</p>
-                    )}
+                    {errors.otp && <p className="text-red-400 text-sm">{errors.otp}</p>}
                 </div>
 
-                {/* New Password Input */}
-                <div className="space-y-2">
-                    
+                {/* New Password Field */}
+                <div className="space-y-1">
+                    <label htmlFor="newPassword" className="block text-sm font-medium text-gray-300">
+                        New Password
+                    </label>
                     <div className="relative">
                         <Input
                             id="newPassword"
@@ -192,25 +158,34 @@ const ResetPassword = ({ onBack, onSuccess }) => {
                             placeholder="Enter new password"
                             value={formData.newPassword}
                             onChange={(e) => handleInputChange('newPassword', e.target.value)}
-                            className="w-full pr-10"
+                            className="w-full p-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 pr-12"
                             disabled={resetPasswordLoading}
+                            autoComplete="new-password"
                         />
-                        <button
+                        <Button
                             type="button"
+                            variant="ghost"
+                            size="sm"
+                            className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                             onClick={() => setShowPassword(!showPassword)}
-                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                            disabled={resetPasswordLoading}
+                            tabIndex={-1}
                         >
-                            {showPassword ? <EyeClosedIcon /> : <EyeOpenIcon />}
-                        </button>
+                            {showPassword ? (
+                                <EyeClosedIcon className="h-4 w-4 text-gray-400" />
+                            ) : (
+                                <EyeOpenIcon className="h-4 w-4 text-gray-400" />
+                            )}
+                        </Button>
                     </div>
-                    {errors.newPassword && (
-                        <p className="text-red-500 text-sm">{errors.newPassword}</p>
-                    )}
+                    {errors.newPassword && <p className="text-red-400 text-sm">{errors.newPassword}</p>}
                 </div>
 
-                {/* Confirm Password Input */}
-                <div className="space-y-2">
-                    
+                {/* Confirm Password Field */}
+                <div className="space-y-1">
+                    <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300">
+                        Confirm New Password
+                    </label>
                     <div className="relative">
                         <Input
                             id="confirmPassword"
@@ -218,50 +193,63 @@ const ResetPassword = ({ onBack, onSuccess }) => {
                             placeholder="Confirm new password"
                             value={formData.confirmPassword}
                             onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
-                            className="w-full pr-10"
+                            className="w-full p-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 pr-12"
                             disabled={resetPasswordLoading}
+                            autoComplete="new-password"
                         />
-                        <button
+                        <Button
                             type="button"
+                            variant="ghost"
+                            size="sm"
+                            className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                            disabled={resetPasswordLoading}
+                            tabIndex={-1}
                         >
-                            {showConfirmPassword ? <EyeClosedIcon /> : <EyeOpenIcon />}
-                        </button>
+                            {showConfirmPassword ? (
+                                <EyeClosedIcon className="h-4 w-4 text-gray-400" />
+                            ) : (
+                                <EyeOpenIcon className="h-4 w-4 text-gray-400" />
+                            )}
+                        </Button>
                     </div>
-                    {errors.confirmPassword && (
-                        <p className="text-red-500 text-sm">{errors.confirmPassword}</p>
-                    )}
+                    {errors.confirmPassword && <p className="text-red-400 text-sm">{errors.confirmPassword}</p>}
                 </div>
 
-                {/* Token Error */}
-                {errors.token && (
-                    <div className="bg-red-50 border border-red-200 rounded-md p-3">
-                        <p className="text-red-600 text-sm">{errors.token}</p>
+                {/* Error Messages */}
+                {(errors.token || resetPasswordError) && (
+                    <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3">
+                        <p className="text-red-400 text-sm text-center">
+                            {errors.token || resetPasswordError}
+                        </p>
                     </div>
                 )}
 
-                {/* Redux Error */}
-                {resetPasswordError && (
-                    <div className="bg-red-50 border border-red-200 rounded-md p-3">
-                        <p className="text-red-600 text-sm">{resetPasswordError}</p>
-                    </div>
-                )}
-
+                {/* Submit Button */}
                 <Button 
                     type="submit" 
-                    className="w-full bg-blue-600 hover:bg-blue-700"
+                    className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed" 
                     disabled={resetPasswordLoading}
                 >
-                    {resetPasswordLoading ? 'Resetting Password...' : 'Reset Password'}
+                    {resetPasswordLoading ? (
+                        <span className="flex items-center justify-center gap-2">
+                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                            Resetting Password...
+                        </span>
+                    ) : (
+                        'Reset Password'
+                    )}
                 </Button>
             </form>
 
+            {/* Back to Login */}
             <div className="text-center">
-                <Button 
+                <Button
                     onClick={handleBackToLogin}
                     variant="ghost"
-                    className="flex items-center gap-2 text-blue-500 hover:text-blue-700"
+                    className="text-purple-400 hover:text-purple-300 p-0 h-auto font-normal text-sm flex items-center gap-2 mx-auto transition-all duration-200"
+                    disabled={resetPasswordLoading}
+                    type="button"
                 >
                     <ArrowLeftIcon className="w-4 h-4" />
                     Back to Login

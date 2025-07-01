@@ -142,7 +142,7 @@ const ForgotPassword = ({ onBack }) => {
 
                 <Button 
                     type="submit" 
-                    className="w-full bg-blue-600 hover:bg-blue-700"
+                     className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={forgotPasswordLoading}
                 >
                     {forgotPasswordLoading ? 'Sending Reset Link...' : 'Send Reset Link'}

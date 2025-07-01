@@ -63,17 +63,16 @@ export const projectReducer = (state = initialState, action) => {
         error: null
       }; // Fixed: Added missing semicolon
 
-    case CREATE_PROJECT_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        // Fixed: Handle the nested data structure properly
-        project: {
-          ...state.project,
-          data: [...(state.project.data || []), action.payload]
-        },
-        error: null
-      };
+  case CREATE_PROJECT_SUCCESS:
+  return {
+    ...state,
+    loading: false,
+    project: {
+      ...state.project,
+      data: [...(state.project.data || []), action.payload.data] // Extract .data from the response
+    },
+    error: null
+  };
 
     case DELETE_PROJECT_SUCCESS:
       return {

@@ -25,7 +25,7 @@ import { tags } from '../ProjectList/ProjectList'
 import { useDispatch } from 'react-redux'
 import { createProject } from '../../Redux/Project/Action'
 
-const ProjectForm = () => {
+const ProjectForm = () => { // Remove onClose prop since we'll use DialogClose
 
   const dispatch = useDispatch();
   const form = useForm({
@@ -34,18 +34,23 @@ const ProjectForm = () => {
       description: '',
       category: '',
       tags: ['javascript', 'react']
-    }
+    },
+    mode: 'onChange' // Enable validation on change
   })
 
-   const handleTagsChange = (newValue)=>{
+  const handleTagsChange = (newValue) => {
     const currentTags = form.getValues("tags");
-    const updatedTags = currentTags.includes(newValue)?
-    currentTags.filter(tag=> tag!==newValue):[...currentTags, newValue];
+    const updatedTags = currentTags.includes(newValue)
+      ? currentTags.filter(tag => tag !== newValue)
+      : [...currentTags, newValue];
     form.setValue("tags", updatedTags);
   }
 
   const onSubmit = (data) => {
+    console.log(data)
     dispatch(createProject(data))
+    // Reset form after submission
+    form.reset()
   }
 
   const projectLimitReached = false
@@ -58,13 +63,20 @@ const ProjectForm = () => {
           <FormField
             control={form.control}
             name="name"
+            rules={{ 
+              required: "Project name is required",
+              minLength: {
+                value: 2,
+                message: "Project name must be at least 2 characters"
+              }
+            }}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Project Name</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
-                    placeholder="project name"
+                    placeholder="Enter project name"
                     type="text"
                     className="border w-full border-gray-300 py-2 px-3"
                   />
@@ -78,17 +90,34 @@ const ProjectForm = () => {
           <FormField
             control={form.control}
             name="description"
+            rules={{
+              required: "Description is required",
+              minLength: {
+                value: 25,
+                message: "Description must be at least 25 characters"
+              },
+              maxLength: {
+                value: 200,
+                message: "Description must not exceed 200 characters"
+              }
+            }}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Description</FormLabel>
                 <FormControl>
                   <Textarea
                     {...field}
-                    placeholder="project description..."
+                    placeholder="Enter project description (minimum 25 characters)..."
                     className="border w-full border-gray-300 py-3 px-3"
+                    rows={4}
                   />
                 </FormControl>
-                <FormMessage />
+                <div className="flex justify-between items-center">
+                  <FormMessage />
+                  <span className="text-xs text-gray-500">
+                    {field.value?.length || 0}/200 characters
+                  </span>
+                </div>
               </FormItem>
             )}
           />
@@ -97,12 +126,13 @@ const ProjectForm = () => {
           <FormField
             control={form.control}
             name="category"
+            rules={{ required: "Please select a category" }}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Category</FormLabel>
                 <Select
                   onValueChange={field.onChange}
-                  defaultValue={field.value}
+                  value={field.value}
                 >
                   <FormControl>
                     <SelectTrigger className="border border-gray-300">
@@ -120,7 +150,8 @@ const ProjectForm = () => {
               </FormItem>
             )}
           />
-                    {/* Category (Select) */}
+
+          {/* Tags */}
           <FormField
             control={form.control}
             name="tags"
@@ -128,10 +159,10 @@ const ProjectForm = () => {
               <FormItem>
                 <FormLabel>Tags</FormLabel>
                 <Select
-                  onValueChange={(value)=>{
+                  onValueChange={(value) => {
                     handleTagsChange(value);
                   }}
-                  // defaultValue={field.value}
+                  value="" // Reset select after each selection
                 >
                   <FormControl>
                     <SelectTrigger className="border border-gray-300">
@@ -139,23 +170,25 @@ const ProjectForm = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                  {tags.map((item)=> <SelectItem key={item} value={item}>{item}</SelectItem>)}
-                 
+                    {tags.map((item) => (
+                      <SelectItem key={item} value={item}>
+                        {item}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
-                <div className='flex gap-1 flex-wrap'>
-              {field.value.map((item, index) => (
-                  <div
-                    key={item}
-                    onClick={() => handleTagsChange(item)}
-                    className='cursor-pointer flex rounded-full items-center border gap-2 py-1 px-4'
-                  >
-                    <span className='text-sm flex items-center justify-center'>{item}</span>
-                    <Cross1Icon className='h-3 w-3' />
-                  </div>
-                ))}
-
+                <div className='flex gap-1 flex-wrap mt-2'>
+                  {field.value.map((item) => (
+                    <div
+                      key={item}
+                      onClick={() => handleTagsChange(item)}
+                      className='cursor-pointer flex rounded-full items-center border gap-2 py-1 px-4 hover:bg-gray-100'
+                    >
+                      <span className='text-sm'>{item}</span>
+                      <Cross1Icon className='h-3 w-3' />
+                    </div>
+                  ))}
                 </div>
               </FormItem>
             )}
@@ -168,8 +201,12 @@ const ProjectForm = () => {
             </p>
           ) : (
             <DialogClose asChild>
-              <Button type="submit" className="w-full py-5">
-                Create Project
+              <Button 
+                type="submit" 
+                className="w-full py-5"
+                disabled={form.formState.isSubmitting}
+              >
+                {form.formState.isSubmitting ? 'Creating...' : 'Create Project'}
               </Button>
             </DialogClose>
           )}

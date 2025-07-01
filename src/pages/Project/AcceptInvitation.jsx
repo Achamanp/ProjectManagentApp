@@ -39,8 +39,9 @@ const AcceptInvitation = () => {
             setTimeout(() => {
                 if (result?.projectId) {
                     navigate(`/project/${result.projectId}`);
+
                 } else {
-                    navigate('/projects');
+                    navigate('/');
                 }
             }, 2000);
             
